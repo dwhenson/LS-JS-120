@@ -1,0 +1,22 @@
+{
+  "author": "Dave Henson",
+  "description": "LaunchSchool-JS100",
+  "version": "1.0.0",
+  "keywords": [],
+  "name": "lsjs100",
+  "source": "src/index.html",
+  "scripts": {},
+  "license": "ISC",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "7.12.1",
+    "eslint-cli": "^1.1.1",
+    "eslint-config-healthier": "^3.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.25.4",
+    "healthier": "^4.0.0",
+    "prettier": "2.5",
+    "readline-sync": "^1.4.10"
+  }
+}
