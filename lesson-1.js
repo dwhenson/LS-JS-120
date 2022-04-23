@@ -13,10 +13,17 @@ function createComputer() {
     choose() {
       const choices = RPSGame.VALID_CHOICES;
       let randomIndex = Math.floor(Math.random() * choices.length);
-      this.move = RPSGame.KEY_TO_CHOICE[choices[randomIndex][0]];
+      let compMove = RPSGame.KEY_TO_CHOICE[choices[randomIndex][0]];
+      if (compMove === RPSGame.human.move) {
+        if (RPSGame.noTie()) {
+          return this.choose();
+        } else {
+          return (this.move = compMove);
+        }
+      }
+      this.move = compMove;
     },
   };
-
   return Object.assign(playerObject, computerObject);
 }
 
@@ -71,6 +78,11 @@ const RPSGame = {
     computerMoves: [],
   },
 
+  noTie() {
+    if (this.moveHistory.humanMoves.length < 2) return false;
+    return Number(this.score.human / this.moveHistory.humanMoves.length) > 0;
+  },
+
   displayWelcomeMessage() {
     console.log("Welcome to Rock, Paper, Scissors, Lizard, Spock!");
     console.log("The first player to win five rounds wins the tournament.");
@@ -103,24 +115,30 @@ const RPSGame = {
 
   displayScore() {
     console.log(
-      `The current scores are: Human: ${this.score.human}, Computer ${this.score.computer}`
+      `The current scores are: Human: ${this.score.human}, Computer ${this.score.computer}\n`
     );
   },
 
-  checkTournamentWinner() {
-    let reset = {
+  reset() {
+    this.score = {
       human: 0,
       computer: 0,
     };
+    this.moveHistory = {
+      humanMoves: [],
+      computerMoves: [],
+    };
+  },
 
-    if (this.score.computer === 2) {
+  checkTournamentWinner() {
+    if (this.score.computer === 5) {
       console.log("Computer wins the tournament!!");
-      this.score = reset;
+      this.reset();
       return false;
     }
-    if (this.score.human === 2) {
+    if (this.score.human === 5) {
       console.log("You win the tournament!!");
-      this.score = reset;
+      this.reset();
       return false;
     }
   },
