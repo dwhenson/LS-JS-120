@@ -66,6 +66,10 @@ const RPSGame = {
     human: 0,
     computer: 0,
   },
+  moveHistory: {
+    humanMoves: [],
+    computerMoves: [],
+  },
 
   displayWelcomeMessage() {
     console.log("Welcome to Rock, Paper, Scissors, Lizard, Spock!");
@@ -82,6 +86,9 @@ const RPSGame = {
 
     console.log(`You chose: ${this.human.move}`);
     console.log(`The computer chose: ${this.computer.move}`);
+
+    this.moveHistory.humanMoves.push(humanMove);
+    this.moveHistory.computerMoves.push(computerMove);
 
     if (this.playerWins(humanMove, computerMove)) {
       this.score.human += 1;
@@ -121,6 +128,10 @@ const RPSGame = {
   playAgain() {
     console.log("Would you like to play again? (y/n)");
     let answer = READLINE.question();
+    while (!["y", "n"].includes(answer)) {
+      console.log("Sorry, invalid choice.");
+      answer = READLINE.question();
+    }
     return answer.toLowerCase()[0] === "y";
   },
 
