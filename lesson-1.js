@@ -175,6 +175,7 @@ const RPSGame = {
       console.clear();
       return true;
     }
+    return false;
   },
 
   displayGoodbyeMessage() {
