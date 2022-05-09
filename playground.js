@@ -1,20 +1,7 @@
-class Greeting {
-  greet(message) {
-    console.log(message);
-  }
+function Child(name, school) {
+  this.name = name;
+  this.school = school;
 }
 
-class Hello extends Greeting {
-  hi() {
-    this.greet("hello");
-  }
-}
-
-class Goodbye extends Greeting {
-  hi() {
-    this.greet("goodbye");
-  }
-}
-
-let test = new Goodbye();
-test.hi();
+Child.prototype = Person.prototype;
+Child.prototype.construcutor = Child.prototype;
