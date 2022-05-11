@@ -168,10 +168,7 @@ class TTTGame {
 
     while (true) {
       let validChoices = this.board.unusedSquares();
-      const prompt = `Choose a square (${new Intl.ListFormat("en-GB", {
-        style: "short",
-        type: "disjunction",
-      }).format(validChoices)}): `;
+      const prompt = `Choose a square (${validChoices.join(", ")}): `;
       choice = readline.question(prompt);
 
       if (validChoices.includes(choice)) break;
