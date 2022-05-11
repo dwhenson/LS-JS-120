@@ -31,8 +31,9 @@ let Board = {
   init() {
     this.squares = {};
     for (let counter = 1; counter <= 9; ++counter) {
-      this.squares[String(counter)] = Square.init();
+      this.squares[String(counter)] = Object.create(Square).init();
     }
+
     return this;
   },
 
@@ -86,7 +87,7 @@ let Board = {
   },
 };
 
-let PlayerPrototype = {
+const PlayerPrototype = {
   initialize(marker) {
     this.marker = marker;
     return this;
