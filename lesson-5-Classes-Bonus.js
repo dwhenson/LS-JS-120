@@ -118,6 +118,14 @@ class TTTGame {
     ["3", "5", "7"], // diagonal: bottom-left to top-right
   ];
 
+  static joinOr(array, deliminator = ", ", junction = "or ") {
+    if (array.length === 1) return array;
+    if (array.length === 2) return `${array[0]} ${junction} ${array[1]}`;
+
+    let finalTwo = `${array.at(-2)}${deliminator}${junction}${array.at(-1)}`;
+    return `${array.splice(0, array.at(-3)).join(deliminator)}${deliminator}${finalTwo}`;
+  }
+
   constructor() {
     this.board = new Board();
     this.human = new Human();
@@ -168,7 +176,7 @@ class TTTGame {
 
     while (true) {
       let validChoices = this.board.unusedSquares();
-      const prompt = `Choose a square (${validChoices.join(", ")}): `;
+      const prompt = `Choose a square (${TTTGame.joinOr(validChoices)}): `;
       choice = readline.question(prompt);
 
       if (validChoices.includes(choice)) break;
