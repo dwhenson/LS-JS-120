@@ -28,6 +28,10 @@ class Square {
 
 class Board {
   constructor() {
+    this.reset();
+  }
+
+  reset() {
     this.squares = {};
     for (let counter = 1; counter <= 9; ++counter) {
       this.squares[String(counter)] = new Square();
@@ -76,6 +80,24 @@ class Board {
     return markers.length;
   }
 
+  /*
+function computerChoosesSquare(board) {
+  let square;
+  for (let index = 0; index < WINNING_LINES.length; index++) {
+    let line = WINNING_LINES[index];
+    if (line.filter((square) => square === HUMAN_MARKER).length === 2) {
+      square = line.find((line) => line !== HUMAN_MARKER);
+      break;
+    } else {
+      let randomIndex = Math.floor(Math.random() * emptySquares(board).length);
+      square = emptySquares(board)[randomIndex];
+      console.log("worked");
+    }
+  }
+  board[square] = COMPUTER_MARKER;
+}
+ */
+
   displayWithClear() {
     console.clear();
     console.log("");
@@ -119,11 +141,15 @@ class TTTGame {
   ];
 
   static joinOr(array, deliminator = ", ", junction = "or ") {
-    if (array.length === 1) return array;
-    if (array.length === 2) return `${array[0]} ${junction} ${array[1]}`;
+    let arrayCopy = [...array]; // avoid mutating original array
 
-    let finalTwo = `${array.at(-2)}${deliminator}${junction}${array.at(-1)}`;
-    return `${array.splice(0, array.at(-3)).join(deliminator)}${deliminator}${finalTwo}`;
+    if (arrayCopy.length === 1) return arrayCopy;
+    if (arrayCopy.length === 2) return `${arrayCopy[0]}${junction}${arrayCopy[1]}`;
+
+    let finalTwo = `${arrayCopy.at(-2)}${deliminator}${junction}${arrayCopy.at(-1)}`;
+    return `${arrayCopy
+      .splice(0, arrayCopy.at(-3))
+      .join(deliminator)}${deliminator}${finalTwo}`;
   }
 
   constructor() {
@@ -135,7 +161,21 @@ class TTTGame {
   play() {
     this.displayWelcomeMessage();
 
+    while (true) {
+      this.playOneGame();
+      if (!this.playAgain()) break;
+
+      console.log("Let's play again!");
+      console.log("");
+    }
+
+    this.displayGoodbyeMessage();
+  }
+
+  playOneGame() {
+    this.board.reset();
     this.board.display();
+
     while (true) {
       this.humanMoves();
       if (this.gameOver()) break;
@@ -148,7 +188,22 @@ class TTTGame {
 
     this.board.displayWithClear();
     this.displayResults();
-    this.displayGoodbyeMessage();
+  }
+
+  playAgain() {
+    let answer;
+
+    while (true) {
+      answer = readline.question("Play again (y/n)? ").toLowerCase();
+
+      if (["y", "n"].includes(answer)) break;
+
+      console.log("Sorry, that's not a valid choice.");
+      console.log("");
+    }
+
+    console.clear();
+    return answer === "y";
   }
 
   displayWelcomeMessage() {
