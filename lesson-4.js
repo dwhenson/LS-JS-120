@@ -18,7 +18,7 @@ class Computer extends Player {
   }
 }
 
-class Human extends Player {
+class Human extends Player() {
   constructor() {
     super();
   }
